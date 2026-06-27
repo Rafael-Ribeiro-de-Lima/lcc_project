@@ -1,0 +1,7 @@
+def principal()
+{
+    int A;
+    /* comentario que nao fecha
+    A = 1;
+    return;
+}

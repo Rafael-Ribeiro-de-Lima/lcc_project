@@ -1,0 +1,6 @@
+def principal()
+{
+    float X;
+    X = 12.;
+    return;
+}

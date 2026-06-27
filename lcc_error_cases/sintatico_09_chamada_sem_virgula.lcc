@@ -1,0 +1,11 @@
+def soma(int A, int B)
+{
+    return;
+}
+
+def principal()
+{
+    int A;
+    A = soma(1 2);
+    return;
+}

@@ -1,0 +1,156 @@
+/* Quick Sort */
+def trocar_posicoes(int dados, int origem, int destino)
+{
+    int temporario;
+    temporario = dados[origem];
+    dados[origem] = dados[destino];
+    dados[destino] = temporario;
+    return;
+}
+
+def inicializar_dados(int dados, int tamanho)
+{
+    int indice;
+    int base;
+    indice = 0;
+    base = tamanho * 5;
+    for(indice = 0; indice < tamanho; indice = indice + 1)
+    {
+        dados[indice] = base - indice * 2;
+        if(indice % 2 == 0)
+        {
+            dados[indice] = dados[indice] + 7;
+        }
+        else
+        {
+            dados[indice] = dados[indice] - 3;
+        }
+    }
+    return;
+}
+
+def particionar_quick_sort(int dados, int inicio, int fim)
+{
+    int pivo;
+    int i;
+    int j;
+    int retorno;
+    pivo = dados[fim];
+    i = inicio - 1;
+    for(j = inicio; j < fim; j = j + 1)
+    {
+        if(dados[j] <= pivo)
+        {
+            i = i + 1;
+            retorno = trocar_posicoes(dados, i, j);
+        }
+    }
+    i = i + 1;
+    retorno = trocar_posicoes(dados, i, fim);
+    print i;
+    return;
+}
+
+def ordenar_quick_sort(int dados, int inicio, int fim)
+{
+    int pivo;
+    int retorno;
+    int esquerda;
+    int direita;
+    pivo = inicio;
+    esquerda = inicio;
+    direita = fim;
+    if(inicio < fim)
+    {
+        retorno = particionar_quick_sort(dados, inicio, fim);
+        pivo = inicio + fim;
+        pivo = pivo / 2;
+        esquerda = pivo - 1;
+        direita = pivo + 1;
+        if(inicio < esquerda)
+        {
+            retorno = ordenar_quick_sort(dados, inicio, esquerda);
+        }
+        if(direita < fim)
+        {
+            retorno = ordenar_quick_sort(dados, direita, fim);
+        }
+    }
+    return;
+}
+
+def calcular_soma(int dados, int tamanho)
+{
+    int indice;
+    int soma;
+    soma = 0;
+    for(indice = 0; indice < tamanho; indice = indice + 1)
+    {
+        soma = soma + dados[indice];
+    }
+    print soma;
+    return;
+}
+
+def calcular_maior_valor(int dados, int tamanho)
+{
+    int indice;
+    int maior;
+    maior = dados[0];
+    for(indice = 1; indice < tamanho; indice = indice + 1)
+    {
+        if(dados[indice] > maior)
+        {
+            maior = dados[indice];
+        }
+    }
+    print maior;
+    return;
+}
+
+def calcular_menor_valor(int dados, int tamanho)
+{
+    int indice;
+    int menor;
+    menor = dados[0];
+    for(indice = 1; indice < tamanho; indice = indice + 1)
+    {
+        if(dados[indice] < menor)
+        {
+            menor = dados[indice];
+        }
+    }
+    print menor;
+    return;
+}
+
+def principal()
+{
+    int dados[30];
+    int tamanho;
+    int resultado;
+    int inicio;
+    int fim;
+    int indice;
+    tamanho = 30;
+    inicio = 0;
+    fim = tamanho - 1;
+    resultado = inicializar_dados(dados, tamanho);
+    resultado = ordenar_quick_sort(dados, inicio, fim);
+    resultado = calcular_soma(dados, tamanho);
+    resultado = calcular_maior_valor(dados, tamanho);
+    resultado = calcular_menor_valor(dados, tamanho);
+    for(indice = 0; indice < tamanho; indice = indice + 1)
+    {
+        print dados[indice];
+    }
+    if(dados[0] <= dados[fim])
+    {
+        print "ordenacao concluida";
+    }
+    else
+    {
+        print "ordenacao pendente";
+    }
+    return;
+}

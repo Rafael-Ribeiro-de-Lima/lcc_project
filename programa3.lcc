@@ -1,0 +1,151 @@
+/* Multiplicacao de Matrizes */
+def inicializar_matriz(int matriz, int linhas, int colunas)
+{
+    int i;
+    int j;
+    int valor;
+    valor = 1;
+    for(i = 0; i < linhas; i = i + 1)
+    {
+        for(j = 0; j < colunas; j = j + 1)
+        {
+            matriz[i][j] = valor;
+            valor = valor + 1;
+        }
+    }
+    return;
+}
+
+def zerar_matriz(int matriz, int linhas, int colunas)
+{
+    int i;
+    int j;
+    for(i = 0; i < linhas; i = i + 1)
+    {
+        for(j = 0; j < colunas; j = j + 1)
+        {
+            matriz[i][j] = 0;
+        }
+    }
+    return;
+}
+
+def multiplicar_matrizes(int a, int b, int produto, int linhas, int meio, int colunas)
+{
+    int i;
+    int j;
+    int k;
+    int soma;
+    for(i = 0; i < linhas; i = i + 1)
+    {
+        for(j = 0; j < colunas; j = j + 1)
+        {
+            soma = 0;
+            for(k = 0; k < meio; k = k + 1)
+            {
+                soma = soma + a[i][k] * b[k][j];
+            }
+            produto[i][j] = soma;
+        }
+    }
+    return;
+}
+
+def imprimir_matriz(int matriz, int linhas, int colunas)
+{
+    int i;
+    int j;
+    for(i = 0; i < linhas; i = i + 1)
+    {
+        for(j = 0; j < colunas; j = j + 1)
+        {
+            print matriz[i][j];
+        }
+    }
+    return;
+}
+
+def calcular_diagonal(int matriz, int ordem)
+{
+    int i;
+    int soma;
+    soma = 0;
+    for(i = 0; i < ordem; i = i + 1)
+    {
+        soma = soma + matriz[i][i];
+    }
+    print soma;
+    return;
+}
+
+def verificar_identidade(int matriz, int ordem)
+{
+    int i;
+    int j;
+    int identidade;
+    identidade = 1;
+    for(i = 0; i < ordem; i = i + 1)
+    {
+        for(j = 0; j < ordem; j = j + 1)
+        {
+            if(i == j)
+            {
+                if(matriz[i][j] != 1)
+                {
+                    identidade = 0;
+                }
+            }
+            else
+            {
+                if(matriz[i][j] != 0)
+                {
+                    identidade = 0;
+                }
+            }
+        }
+    }
+    if(identidade == 1)
+    {
+        print "matriz identidade";
+    }
+    else
+    {
+        print "matriz comum";
+    }
+    return;
+}
+
+def principal()
+{
+    int matriz_a[4][4];
+    int matriz_b[4][4];
+    int produto[4][4];
+    int linhas;
+    int meio;
+    int colunas;
+    int resultado;
+    int indice;
+    linhas = 4;
+    meio = 4;
+    colunas = 4;
+    resultado = inicializar_matriz(matriz_a, linhas, meio);
+    resultado = inicializar_matriz(matriz_b, meio, colunas);
+    resultado = zerar_matriz(produto, linhas, colunas);
+    resultado = multiplicar_matrizes(matriz_a, matriz_b, produto, linhas, meio, colunas);
+    resultado = imprimir_matriz(produto, linhas, colunas);
+    resultado = calcular_diagonal(produto, linhas);
+    resultado = verificar_identidade(produto, linhas);
+    for(indice = 0; indice < linhas; indice = indice + 1)
+    {
+        print produto[indice][indice];
+    }
+    if(produto[0][0] > 0)
+    {
+        print "multiplicacao concluida";
+    }
+    else
+    {
+        print "produto nulo";
+    }
+    return;
+}

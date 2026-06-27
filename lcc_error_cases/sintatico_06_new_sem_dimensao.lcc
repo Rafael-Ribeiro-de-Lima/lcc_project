@@ -1,0 +1,6 @@
+def principal()
+{
+    int V[10];
+    V = new int;
+    return;
+}

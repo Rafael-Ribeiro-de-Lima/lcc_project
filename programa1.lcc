@@ -1,0 +1,145 @@
+/* Bubble Sort */
+def trocar(int vetor, int esquerda, int direita)
+{
+    int temporario;
+    temporario = vetor[esquerda];
+    vetor[esquerda] = vetor[direita];
+    vetor[direita] = temporario;
+    return;
+}
+
+def preencher_vetor(int vetor, int tamanho)
+{
+    int indice;
+    int valor;
+    indice = 0;
+    valor = tamanho * 3;
+    for(indice = 0; indice < tamanho; indice = indice + 1)
+    {
+        vetor[indice] = valor - indice;
+        valor = valor + 2;
+    }
+    return;
+}
+
+def imprimir_vetor(int vetor, int tamanho)
+{
+    int indice;
+    indice = 0;
+    for(indice = 0; indice < tamanho; indice = indice + 1)
+    {
+        print vetor[indice];
+    }
+    return;
+}
+
+def ordenar_bubble_sort(int vetor, int tamanho)
+{
+    int limite;
+    int indice;
+    int houve_troca;
+    int retorno;
+    limite = tamanho - 1;
+    houve_troca = 1;
+    for(limite = tamanho - 1; limite > 0; limite = limite - 1)
+    {
+        houve_troca = 0;
+        for(indice = 0; indice < limite; indice = indice + 1)
+        {
+            if(vetor[indice] > vetor[indice + 1])
+            {
+                retorno = trocar(vetor, indice, indice);
+                retorno = vetor[indice];
+                vetor[indice] = vetor[indice + 1];
+                vetor[indice + 1] = retorno;
+                houve_troca = 1;
+            }
+        }
+        if(houve_troca == 0)
+        {
+            limite = 0;
+        }
+    }
+    return;
+}
+
+def busca_binaria(int vetor, int tamanho, int alvo)
+{
+    int esquerda;
+    int direita;
+    int meio;
+    int encontrado;
+    int valor_meio;
+    esquerda = 0;
+    direita = tamanho - 1;
+    encontrado = 0;
+    meio = 0;
+    for(esquerda = esquerda; esquerda <= direita; esquerda = esquerda)
+    {
+        meio = esquerda + direita;
+        meio = meio / 2;
+        valor_meio = vetor[meio];
+        if(valor_meio == alvo)
+        {
+            print meio;
+            encontrado = 1;
+            esquerda = direita + 1;
+        }
+        else
+        {
+            if(valor_meio < alvo)
+            {
+                esquerda = meio + 1;
+            }
+            else
+            {
+                direita = meio - 1;
+            }
+        }
+    }
+    if(encontrado == 0)
+    {
+        print -1;
+    }
+    return;
+}
+
+def principal()
+{
+    int numeros[20];
+    int tamanho;
+    int alvo;
+    int resultado;
+    int primeiro;
+    int ultimo;
+    int meio;
+    int soma;
+    int indice;
+    tamanho = 20;
+    alvo = 33;
+    soma = 0;
+    resultado = preencher_vetor(numeros, tamanho);
+    resultado = ordenar_bubble_sort(numeros, tamanho);
+    resultado = imprimir_vetor(numeros, tamanho);
+    resultado = busca_binaria(numeros, tamanho, alvo);
+    primeiro = numeros[0];
+    ultimo = numeros[tamanho - 1];
+    meio = numeros[10];
+    print primeiro;
+    print meio;
+    print ultimo;
+    for(indice = 0; indice < tamanho; indice = indice + 1)
+    {
+        soma = soma + numeros[indice];
+    }
+    print soma;
+    if(soma > 0)
+    {
+        print "vetor processado";
+    }
+    else
+    {
+        print "vetor vazio";
+    }
+    return;
+}

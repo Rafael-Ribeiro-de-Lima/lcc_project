@@ -1,0 +1,9 @@
+def principal()
+{
+    int I;
+    I = 0;
+    for (I = 0 I < 10; I = I + 1) {
+        print I;
+    }
+    return;
+}

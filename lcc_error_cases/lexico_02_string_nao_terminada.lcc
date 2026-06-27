@@ -1,0 +1,6 @@
+def principal()
+{
+    string S;
+    S = "texto sem fechamento;
+    return;
+}

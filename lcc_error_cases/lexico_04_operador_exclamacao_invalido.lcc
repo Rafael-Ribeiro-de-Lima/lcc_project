@@ -1,0 +1,7 @@
+def principal()
+{
+    int A;
+    int B;
+    A = ! B;
+    return;
+}

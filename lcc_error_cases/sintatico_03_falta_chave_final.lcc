@@ -1,0 +1,5 @@
+def principal()
+{
+    int A;
+    A = 10;
+    return;
