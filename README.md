@@ -341,3 +341,15 @@ LVALUE -> ident INDEX_LIST
 INDEX_LIST -> [ NUMEXPRESSION ] INDEX_LIST
 INDEX_LIST -> ε
 ```
+
+### Observacao sobre o `else` opcional
+
+Na producao de comandos condicionais, a parte `else` e opcional:
+
+```text
+IFSTAT -> if ( EXPRESSION ) STATEMENT ELSE_OPT
+ELSE_OPT -> else STATEMENT
+ELSE_OPT -> ε
+```
+
+Quando o token atual da entrada e else, a tabela de reconhecimento sintatico seleciona a producao ELSE_OPT -> else STATEMENT. Assim, o else fica associado ao if mais proximo, que e a convencao usual para comandos condicionais encadeados.
