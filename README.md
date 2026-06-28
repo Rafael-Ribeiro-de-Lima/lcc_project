@@ -1,18 +1,18 @@
-# INE5622 - Analisador Lexico e Sintatico LL(1) para LCC-2026-1
+# INE5622 - Analisador Léxico e Sintático LL(1) para LCC-2026-1
 
-Integrantes do grupo: preencher antes da entrega.
+Integrantes do grupo: Gustavo Pauli de Souza - 23205950, Maria Eduarda Betman Damazio Jaques - 23200514, Pedro Henrique Archer Dalsenter - 23200515, Rafael Ribeiro de Lima - 23203995
 
-Este projeto implementa, em C++, um analisador lexico e um analisador sintatico preditivo tabular para a linguagem LCC-2026-1 do Exercício-Programa de INE5622 - Introducao a Compiladores.
+Este projeto implementa, em C++, um analisador léxico e um analisador sintático preditivo tabular para a linguagem LCC-2026-1 do Exercício-Programa de INE5622 - Introdução a Compiladores.
 
-## 1. Ambiente e versao
+## 1. Ambiente e versão
 
 - Linguagem: C++
 - Compilador previsto pelo enunciado: `g++ 12.2.0`
-- Padrao usado: `C++17`
+- Padrão usado: `C++17`
 - Ambiente: Linux/Unix
 - Bibliotecas externas: nenhuma
 
-O projeto usa apenas biblioteca padrao de C++.
+O projeto usa apenas biblioteca padrão de C++.
 
 ## 2. Estrutura dos arquivos
 
@@ -40,13 +40,13 @@ O projeto usa apenas biblioteca padrao de C++.
 
 Papel de cada arquivo:
 
-- `main.cpp`: ponto de entrada; abre o arquivo `.lcc`, executa lexer, imprime tokens/tabela de simbolos e executa parser.
-- `token.hpp` / `token.cpp`: definicao dos tokens, palavras reservadas e conversao para terminais da gramatica.
-- `errors.hpp` / `errors.cpp`: classes de erro lexico e sintatico.
-- `symbol_table.hpp` / `symbol_table.cpp`: tabela de simbolos de identificadores e ocorrencias.
-- `lexer.hpp` / `lexer.cpp`: analisador lexico caractere por caractere.
-- `grammar.hpp` / `grammar.cpp`: gramatica, FIRST, FOLLOW e tabela de reconhecimento sintatico.
-- `parser_ll1.hpp` / `parser_ll1.cpp`: analisador sintatico tabular.
+- `main.cpp`: ponto de entrada; abre o arquivo `.lcc`, executa lexer, imprime tokens/tabela de símbolos e executa parser.
+- `token.hpp` / `token.cpp`: definição dos tokens, palavras reservadas e conversão para terminais da gramática.
+- `errors.hpp` / `errors.cpp`: classes de erro léxico e sintático.
+- `symbol_table.hpp` / `symbol_table.cpp`: tabela de símbolos de identificadores e ocorrências.
+- `lexer.hpp` / `lexer.cpp`: analisador léxico caractere por caractere.
+- `grammar.hpp` / `grammar.cpp`: gramática, FIRST, FOLLOW e tabela de reconhecimento sintático.
+- `parser_ll1.hpp` / `parser_ll1.cpp`: analisador sintático tabular.
 - `programa1.lcc`, `programa2.lcc`, `programa3.lcc`: programas validos com mais de 100 linhas cada.
 
 ## 3. Como compilar
@@ -55,7 +55,7 @@ Papel de cada arquivo:
 make
 ```
 
-Ou o projeto tambem pode ser compilado diretamente com g++:
+Ou o projeto também pode ser compilado diretamente com g++:
 
 ```bash
 g++ -std=c++17 -O2 -Wall -Wextra -pedantic -o lcc_analyzer main.cpp token.cpp errors.cpp symbol_table.cpp lexer.cpp grammar.cpp parser_ll1.cpp
@@ -74,42 +74,42 @@ CXX ?= g++
 CXXFLAGS ?= -std=c++17 -O2 -Wall -Wextra -pedantic
 ```
 
-## 4. Como executar sobre um arquivo especifico
+## 4. Como executar sobre um arquivo específico
 
 ```bash
 make run FILE=programa1.lcc
 ```
 
-Tambem e possivel executar diretamente:
+Também é possível executar diretamente:
 
 ```bash
 ./lcc_analyzer programa1.lcc
 ```
 
-## 5. Como testar os tres programas validos
+## 5. Como testar os três programas válidos
 
 ```bash
 make test
 ```
 
-Saida esperada:
+Saída esperada:
 
 ```text
 OK - programa1.lcc
 OK - programa2.lcc
 OK - programa3.lcc
-Todos os programas validos foram aceitos.
+Todos os programas válidos foram aceitos.
 ```
 
-## 6. Como limpar arquivos temporarios
+## 6. Como limpar arquivos temporários
 
 ```bash
 make clean
 ```
 
-## 7. Analisador lexico
+## 7. Analisador léxico
 
-O analisador lexico esta em `lexer.cpp` e le o arquivo caractere por caractere.
+O analisador léxico está em `lexer.cpp` e lê o arquivo caractere por caractere.
 
 Ele reconhece:
 
@@ -119,7 +119,7 @@ Ele reconhece:
 def int float string print read return if else for break new null
 ```
 
-### Tokens nao triviais
+### Tokens não triviais
 
 ```text
 ident
@@ -140,43 +140,43 @@ string_constant
 ; , ( ) { } [ ]
 ```
 
-### Comentarios
+### Comentários
 
-Como extensao apenas lexical, o lexer ignora:
+Como extensão apenas léxical, o lexer ignora:
 
 ```text
-// comentario de linha
-/* comentario de bloco */
+// comentário de linha
+/* comentário de bloco */
 ```
 
-A inclusao de comentarios nao altera a gramatica sintatica, pois comentarios sao tratados como espaco em branco.
+A inclusão de comentários não altera a gramática sintática, pois comentários são tratados como espaço em branco.
 
-## 8. Tabela de simbolos
+## 8. Tabela de símbolos
 
-A tabela de simbolos e implementada em `symbol_table.cpp`.
+A tabela de símbolos é implementada em `symbol_table.cpp`.
 
 Ela possui:
 
 - uma entrada por identificador distinto;
-- lista de ocorrencias de cada identificador;
-- linha e coluna inicial de cada ocorrencia.
+- lista de ocorrências de cada identificador;
+- linha e coluna inicial de cada ocorrência.
 
-Exemplo de impressao:
+Exemplo de impressão:
 
 ```text
-TABELA DE SIMBOLOS
-Identificador | Ocorrencias (linha,coluna)
+TABELA DE SÍMBOLOS
+Identificador | Ocorrências (linha,coluna)
 ------------------------------------------
 A             | (3,5), (4,1)
 principal     | (1,5)
 ```
 
-## 9. Saida do analisador lexico
+## 9. Saída do analisador léxico
 
-Se nao houver erro lexico, o programa imprime:
+Se não houver erro léxico, o programa imprime:
 
 1. lista de tokens na ordem em que aparecem no arquivo;
-2. tabela de simbolos.
+2. tabela de símbolos.
 
 Exemplo:
 
@@ -185,46 +185,46 @@ LISTA DE TOKENS
 [def, ident(principal), (, ), {, int, ident(A), ;, ident(A), =, int_constant(10), ;, return, ;, }]
 ```
 
-Se houver erro lexico, imprime mensagem simples com linha e coluna:
+Se houver erro léxico, imprime mensagem simples com linha e coluna:
 
 ```text
-ERRO LEXICO: linha 5, coluna 7: caractere invalido '@'
+ERRO LÉXICO: linha 5, coluna 7: caractere inválido '@'
 ```
 
-## 10. Analisador sintatico tabular
+## 10. Analisador sintático tabular
 
-O analisador sintatico esta em `parser_ll1.cpp`.
+O analisador sintático está em `parser_ll1.cpp`.
 
-Ele e tabular:
+Ele é tabular:
 
-1. a gramatica final e definida em `grammar.cpp`;
-2. FIRST e FOLLOW sao construidos automaticamente;
-3. a tabela de reconhecimento sintatico e construida uma unica vez quando o objeto `Grammar` e criado;
+1. a gramática final é definida em `grammar.cpp`;
+2. FIRST e FOLLOW são construídos automaticamente;
+3. a tabela de reconhecimento sintático é construída uma única vez quando o objeto `Grammar` é criado;
 4. o parser usa pilha e consulta a tabela `M[A,a]`;
-5. nao ha parser recursivo descendente manual.
+5. não há parser recursivo descendente manual.
 
-## 11. Saida do analisador sintatico
+## 11. Saída do analisador sintático
 
 Se a entrada pertence a linguagem:
 
 ```text
-ANALISE SINTATICA: sucesso. A entrada pertence a linguagem LCC-2026-1.
+ANÁLISE SINTÁTICA: sucesso. A entrada pertence a linguagem LCC-2026-1.
 ```
 
-Se houver erro sintatico por entrada vazia na tabela:
+Se houver erro sintático por entrada vazia na tabela:
 
 ```text
-ERRO SINTATICO: entrada vazia na tabela de reconhecimento sintatico M[TERM_TAIL, print]
+ERRO SINTÁTICO: entrada vazia na tabela de reconhecimento sintático M[TERM_TAIL, print]
 forma sentencial alpha: TERM_TAIL NUMEXPRESSION_TAIL REL_OPT ; STMT_LIST_TAIL } FUNC_LIST_TAIL
-nao-terminal mais a esquerda de alpha: TERM_TAIL
+não-terminal mais à esquerda de alpha: TERM_TAIL
 token atual da entrada: print (lexema 'print', linha 5, coluna 1)
 ```
 
-Se ocorrer desencontro direto de terminal, a mensagem tambem informa a forma sentencial, o simbolo relevante e o token atual.
+Se ocorrer desencontro direto de terminal, a mensagem também informa a forma sentencial, o símbolo relevante e o token atual.
 
-## 12. Gramatica final usada
+## 12. Gramática final usada
 
-A gramatica abaixo e a conversao da BNF original para forma convencional. Opcionais, repeticoes e alternativas foram expandidos por novos nao-terminais; isso nao restringe nem amplia os comandos da BNF original.
+A gramática abaixo é a conversão da BNF original para forma convencional. Opcionais, repetições e alternativas foram expandidas por novos não-terminais; isso não restringe nem amplia os comandos da BNF original.
 
 ```text
 PROGRAM -> PROGRAM_OPT
@@ -341,18 +341,3 @@ LVALUE -> ident INDEX_LIST
 INDEX_LIST -> [ NUMEXPRESSION ] INDEX_LIST
 INDEX_LIST -> ε
 ```
-
-## 13. Condicoes relevantes do enunciado contempladas
-
-- Existem tres programas `.lcc` validos.
-- Cada programa valido possui pelo menos 100 linhas.
-- Ha `Makefile` funcional.
-- Ha `README.md`.
-- O analisador lexico le caractere por caractere.
-- Ha tabela de simbolos para identificadores.
-- Ha deteccao de erro lexico com linha e coluna.
-- Ha construcao de FIRST e FOLLOW.
-- Ha construcao unica da tabela de reconhecimento.
-- O parser usa efetivamente a tabela.
-- Ha deteccao de erro sintatico com entrada da tabela, forma sentencial, nao-terminal e token atual.
-- O projeto compila com `g++` em ambiente Linux/Unix.
