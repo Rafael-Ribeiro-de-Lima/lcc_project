@@ -9,7 +9,7 @@ const std::string Grammar::END_MARKER = "$";
 
 Grammar::Grammar()
     : start_symbol_("PROGRAM") {
-    // A ordem importa: a tabela de reconhecimento depende da gramatica, FIRST e FOLLOW.
+    // Inicializa as estruturas da gramatica e constroi os dados usados pelo parser LL(1).
     build_grammar();
     finalize_symbols();
     compute_first_sets();
@@ -70,18 +70,18 @@ void Grammar::add_production(const std::string& lhs, std::vector<std::string> rh
 }
 
 void Grammar::build_grammar() {
-    // PROGRAM -> (STATEMENT | FUNCLIST)?
+    // Producao inicial da linguagem.
     add_production("PROGRAM", {"PROGRAM_OPT"});
     add_production("PROGRAM_OPT", {"FUNC_LIST"});
     add_production("PROGRAM_OPT", {"STATEMENT"});
     add_production("PROGRAM_OPT", {});
 
-    // FUNCLIST -> FUNCDEF FUNCLIST | FUNCDEF
+    // Lista de definicoes de funcoes.
     add_production("FUNC_LIST", {"FUNCDEF", "FUNC_LIST_TAIL"});
     add_production("FUNC_LIST_TAIL", {"FUNCDEF", "FUNC_LIST_TAIL"});
     add_production("FUNC_LIST_TAIL", {});
 
-    // FUNCDEF -> def ident(PARAMLIST){STATELIST}
+    // Definicao de funcao com parametros opcionais e bloco de comandos.
     add_production("FUNCDEF", {"def", "ident", "(", "PARAMS_OPT", ")", "{", "STMT_LIST", "}"});
     add_production("PARAMS_OPT", {"PARAM_LIST"});
     add_production("PARAMS_OPT", {});
@@ -93,12 +93,12 @@ void Grammar::build_grammar() {
     add_production("TYPE", {"float"});
     add_production("TYPE", {"string"});
 
-    // STATELIST -> STATEMENT (STATELIST)?
+    // Lista de comandos dentro de blocos e funcoes.
     add_production("STMT_LIST", {"STATEMENT", "STMT_LIST_TAIL"});
     add_production("STMT_LIST_TAIL", {"STATEMENT", "STMT_LIST_TAIL"});
     add_production("STMT_LIST_TAIL", {});
 
-    // STATEMENT mantem as alternativas da BNF original.
+    // Alternativas de comandos reconhecidas pela linguagem.
     add_production("STATEMENT", {"VARDECL", ";"});
     add_production("STATEMENT", {"ATTRIBSTAT", ";"});
     add_production("STATEMENT", {"PRINTSTAT", ";"});
@@ -110,22 +110,22 @@ void Grammar::build_grammar() {
     add_production("STATEMENT", {"break", ";"});
     add_production("STATEMENT", {";"});
 
-    // VARDECL -> TYPE ident ([int_constant])*
+    // Declaracao de variavel simples ou com dimensoes de vetor.
     add_production("VARDECL", {"TYPE", "ident", "ARRAY_DECL_LIST"});
     add_production("ARRAY_DECL_LIST", {"[", "int_constant", "]", "ARRAY_DECL_LIST"});
     add_production("ARRAY_DECL_LIST", {});
 
-    // ATRIBSTAT -> LVALUE = (EXPRESSION | ALLOCEXPRESSION | FUNCCALL)
+    // Atribuicao para expressao, alocacao ou chamada de funcao.
     add_production("ATTRIBSTAT", {"LVALUE", "=", "ATTRIB_RHS"});
     add_production("ATTRIB_RHS", {"ALLOCEXPRESSION"});
     add_production("ATTRIB_RHS", {"ident", "ATTRIB_RHS_IDENT_TAIL"});
     add_production("ATTRIB_RHS", {"NUMEXPRESSION_NON_IDENT_START", "REL_OPT"});
 
-    // Depois de ident no lado direito, '(' caracteriza FUNCCALL; caso contrario e EXPRESSION.
+    // Tratamento do lado direito da atribuicao quando ele inicia por identificador.
     add_production("ATTRIB_RHS_IDENT_TAIL", {"(", "PARAMLIST_CALL_OPT", ")"});
     add_production("ATTRIB_RHS_IDENT_TAIL", {"INDEX_LIST", "TERM_TAIL", "NUMEXPRESSION_TAIL", "REL_OPT"});
 
-    // Inicio de NUMEXPRESSION quando o primeiro token nao e ident.
+    // Reconhecimento de expressoes numericas que nao iniciam por identificador.
     add_production("NUMEXPRESSION_NON_IDENT_START", {"TERM_NON_IDENT_START", "NUMEXPRESSION_TAIL"});
     add_production("TERM_NON_IDENT_START", {"UNARY_EXPR_NON_IDENT_START", "TERM_TAIL"});
     add_production("UNARY_EXPR_NON_IDENT_START", {"+", "FACTOR"});
@@ -147,15 +147,15 @@ void Grammar::build_grammar() {
     add_production("READSTAT", {"read", "LVALUE"});
     add_production("RETURNSTAT", {"return"});
 
-    // IFSTAT -> if(EXPRESSION) STATEMENT (else STATEMENT)?
+    // Comando condicional com parte else opcional.
     add_production("IFSTAT", {"if", "(", "EXPRESSION", ")", "STATEMENT", "ELSE_OPT"});
     add_production("ELSE_OPT", {"else", "STATEMENT"});
     add_production("ELSE_OPT", {});
 
-    // FORSTAT -> for(ATRIBSTAT; EXPRESSION; ATRIBSTAT) STATEMENT
+    // Comando de repeticao for.
     add_production("FORSTAT", {"for", "(", "ATTRIBSTAT", ";", "EXPRESSION", ";", "ATTRIBSTAT", ")", "STATEMENT"});
 
-    // ALLOCEXPRESSION -> new TYPE ([NUMEXPRESSION])+
+    // Expressao de alocacao com uma ou mais dimensoes.
     add_production("ALLOCEXPRESSION", {"new", "TYPE", "ALLOC_DIMS"});
     add_production("ALLOC_DIMS", {"[", "NUMEXPRESSION", "]", "ALLOC_DIMS_TAIL"});
     add_production("ALLOC_DIMS_TAIL", {"[", "NUMEXPRESSION", "]", "ALLOC_DIMS_TAIL"});
@@ -186,7 +186,7 @@ void Grammar::build_grammar() {
     add_production("UNARY_EXPR", {"-", "FACTOR"});
     add_production("UNARY_EXPR", {"FACTOR"});
 
-    // FACTOR segue a BNF original: FUNCCALL nao aparece aqui.
+    // Fatores aceitos em expressoes numericas.
     add_production("FACTOR", {"int_constant"});
     add_production("FACTOR", {"float_constant"});
     add_production("FACTOR", {"string_constant"});
@@ -199,7 +199,7 @@ void Grammar::build_grammar() {
     add_production("INDEX_LIST", {});
 }
 
-// Tudo que aparece no lado direito e nao e nao-terminal vira terminal.
+// Simbolos do lado direito que nao sao nao-terminais sao tratados como terminais.
 void Grammar::finalize_symbols() {
     for (const auto& production : productions_) {
         for (const auto& symbol : production.rhs) {
@@ -334,9 +334,7 @@ void Grammar::build_parse_table() {
             for (const auto& terminal : follow_sets_[production.lhs]) {
                 auto& cell = parse_table_[production.lhs][terminal];
 
-                // A BNF original contem o conflito classico do dangling else.
-                // A tabela conserva a linguagem e adota a convencao usual:
-                // o 'else' pertence ao 'if' mais proximo.
+                // Preserva a entrada ja existente quando ela deve ter prioridade sobre a producao vazia.
                 if (production.lhs == "ELSE_OPT" && terminal == "else" && !cell.lhs.empty()) {
                     continue;
                 }

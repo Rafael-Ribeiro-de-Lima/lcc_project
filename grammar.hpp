@@ -11,15 +11,15 @@
  * EP - Analisador Lexico e Sintatico para LCC-2026-1
  * Integrantes do grupo: Gustavo Pauli de Souza - 23205950, Maria Eduarda Betman Damazio Jaques - 23200514, Pedro Henrique Archer Dalsenter - 23200515, Rafael Ribeiro de Lima - 23203995
  *
- * Gramatica final usada pelo analisador: conversao da BNF original do PDF
- * para uma forma convencional com novos nao-terminais para opcionais,
- * repeticoes e fatoracoes. Nao foram mantidas as restricoes extras da
- * versao anterior: if/for voltam a aceitar qualquer STATEMENT como corpo,
- * FUNCCALL volta a existir apenas no lado direito de atribuicao, e
- * PARAMLIST_CALL volta a aceitar apenas identificadores.
+ * Este arquivo declara a estrutura responsavel pela representacao da
+ * gramatica da linguagem LCC-2026-1 usada pelo analisador sintatico LL(1).
+ *
+ * A classe Grammar armazena as producoes da gramatica, identifica simbolos
+ * terminais e nao-terminais, calcula os conjuntos FIRST e FOLLOW e constroi
+ * a tabela de reconhecimento sintatico utilizada pelo parser tabular.
  */
 
-// Uma producao guarda id apenas para facilitar depuracao/relatorio.
+// Representa uma producao da gramatica: lhs -> rhs.
 struct Production {
     int id;
     std::string lhs;

@@ -13,10 +13,13 @@
  * EP - Analisador Lexico e Sintatico para LCC-2026-1
  * Integrantes do grupo: Gustavo Pauli de Souza - 23205950, Maria Eduarda Betman Damazio Jaques - 23200514, Pedro Henrique Archer Dalsenter - 23200515, Rafael Ribeiro de Lima - 23203995
  *
- * Analisador lexico implementado com leitura caractere por caractere.
- * Os metodos de reconhecimento correspondem aos diagramas de transicao
- * para identificadores/palavras reservadas, numeros, strings, operadores,
- * delimitadores e comentarios.
+ * Este arquivo declara o analisador lexico da linguagem LCC-2026-1.
+ * O lexer percorre a entrada caractere por caractere, reconhece os tokens
+ * da linguagem, controla linha e coluna e registra identificadores na
+ * tabela de simbolos.
+ *
+ * Os metodos privados separam o reconhecimento de identificadores/palavras
+ * reservadas, numeros, strings, operadores, delimitadores e comentarios.
  */
 
 class Lexer {
@@ -33,7 +36,7 @@ private:
     int column_;
     int current_;
 
-    // current_ guarda sempre o caractere atual; advance() consome um caractere.
+    // current_ armazena o caractere atual da entrada; advance() consome o proximo.
     void advance();
     int peek();
     bool at_end() const;
@@ -41,7 +44,7 @@ private:
     void skip_whitespace_and_comments();
     Token make_token(TokenType type, const std::string& lexeme, int line, int column) const;
 
-    // Scanners especificos tornam explicitos os diagramas de transicao lexicos.
+    // Rotinas especificas de reconhecimento dos principais grupos lexicos.
     Token scan_identifier_or_keyword();
     Token scan_number();
     Token scan_string();

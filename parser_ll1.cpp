@@ -31,7 +31,7 @@ void ParserLL1::parse(const std::vector<Token>& tokens) const {
         // Terminal no topo deve casar exatamente com o token atual.
         if (grammar_.is_terminal(top) || top == Grammar::END_MARKER) {
             if (top == lookahead) {
-        stack.pop_back();
+                stack.pop_back();
                 ++input_index;
             } else {
                 throw_terminal_mismatch_error(top, current, stack);
@@ -52,7 +52,7 @@ void ParserLL1::parse(const std::vector<Token>& tokens) const {
 
         const Production& production = production_it->second;
         stack.pop_back();
-        // Empilha a producao ao contrario para manter a derivacao mais a esquerda.
+        // Empilha o lado direito da producao em ordem reversa para processar o simbolo mais a esquerda primeiro.
         for (auto it = production.rhs.rbegin(); it != production.rhs.rend(); ++it) {
             if (!it->empty() && *it != Grammar::EPSILON) {
                 stack.push_back(*it);

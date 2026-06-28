@@ -11,11 +11,12 @@
  * EP - Analisador Lexico e Sintatico para LCC-2026-1
  * Integrantes do grupo: Gustavo Pauli de Souza - 23205950, Maria Eduarda Betman Damazio Jaques - 23200514, Pedro Henrique Archer Dalsenter - 23200515, Rafael Ribeiro de Lima - 23203995
  *
- * A tabela de simbolos possui uma entrada por identificador distinto e
- * armazena todas as ocorrencias como pares linha/coluna.
+ * Este arquivo declara a tabela de simbolos exigida pela analise lexica.
+ * A tabela possui uma entrada para cada identificador distinto encontrado
+ * no codigo-fonte e armazena todas as suas ocorrencias com linha e coluna.
  */
 
-// Posicao inicial de uma ocorrencia do identificador.
+// Linha e coluna inicial de uma ocorrencia de identificador no arquivo de entrada.
 struct Occurrence {
     int line;
     int column;
