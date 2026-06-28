@@ -9,7 +9,7 @@
 /*
  * INE5622 - Introducao a Compiladores
  * EP - Analisador Lexico e Sintatico para LCC-2026-1
- * Integrantes do grupo: preencher antes da entrega.
+ * Integrantes do grupo: Gustavo Pauli de Souza - 23205950, Maria Eduarda Betman Damazio Jaques - 23200514, Pedro Henrique Archer Dalsenter - 23200515, Rafael Ribeiro de Lima - 23203995
  *
  * Gramatica final usada pelo analisador: conversao da BNF original do PDF
  * para uma forma convencional com novos nao-terminais para opcionais,
